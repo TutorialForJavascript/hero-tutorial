@@ -4,6 +4,7 @@
       <h2>Top Heros</h2>
     </el-row>
     <el-row :gutter="1" type="flex" justify="space-around">
+
       <el-col :span="4">
         <el-card shadow="hover">白金之星</el-card>
       </el-col>
@@ -26,5 +27,6 @@
 <script>
 export default {
   name: "dashboard"
+  
 };
 </script>
