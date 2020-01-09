@@ -1,5 +1,5 @@
 // initial state
-import {heroValidate} from "../../validates"
+import { heroValidate } from "../../validates"
 const Counter = () => {
     let count = 0
     return () => {
@@ -25,14 +25,22 @@ const getters = {
     }
 }
 
-// actions
+// actions 定义业务逻辑
 const actions = {
-
+    appendHero(context, heroObj) {
+        let validated = heroValidate(heroObj)
+        if (validated) {
+            context.commit('appendHero')
+        } else {
+            console.error(`添加hero失败,验证错误`)
+        }
+    }
 }
 
-// mutations
+// mutations 定义数据状态的操作
 const mutations = {
     appendHero(state, heroObj) {
+        let id = counter()
         let hero = Object.assign(heroObj, { id: id })
         state.heros.push(hero)
     },
