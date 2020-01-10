@@ -1,8 +1,8 @@
 import Ajv from "ajv"
-import heroSchema from "./heroinfo.json"
-let ajv = new Ajv()
-let heroValidate= ajv.compile(heroSchema)
+import { heroSchema } from "./heroinfo.js"
+const ajv = new Ajv()
+const heroValidate = ajv.compile(heroSchema)
 
-export default {
+export {
     heroValidate
 }

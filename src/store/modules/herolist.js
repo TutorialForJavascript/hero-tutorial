@@ -15,7 +15,7 @@ const state = {
 
 // getters
 const getters = {
-    hero: (state, heroId) => {
+    hero: (state) => (heroId) => {
         let hero_list = state.heros.filter(hero => hero.id === heroId)
         if (hero_list.length === 0) {
             return null
@@ -28,12 +28,16 @@ const getters = {
 // actions 定义业务逻辑
 const actions = {
     appendHero(context, heroObj) {
+        console.log(heroObj)
         let validated = heroValidate(heroObj)
         if (validated) {
-            context.commit('appendHero')
+            context.commit('appendHero', heroObj)
         } else {
             console.error(`添加hero失败,验证错误`)
         }
+    },
+    updateHero(context, heroId, source) {
+        context.commit('updateHero', { heroId, source })
     }
 }
 
