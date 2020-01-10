@@ -49,7 +49,7 @@ export default {
       } else {
         console.log(this.appendHero);
         hero = { name: this.hero_name };
-        this.appendHero(hero);
+        this.appendHero({ heroObj: hero });
         //this.$store.dispatch("herolist/appendHero",{heroObj:hero})
       }
     }

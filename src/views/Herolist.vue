@@ -28,13 +28,15 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "herolist",
 
   computed: {
-    heros: function() {
-      return this.$store.state.herolist.heros;
-    }
+    ...mapState("herolist", {
+      heros: state => state.heros
+    })
   },
   methods: {
     handleEdit(index, row) {

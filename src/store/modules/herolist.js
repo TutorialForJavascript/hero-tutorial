@@ -27,37 +27,38 @@ const getters = {
 
 // actions 定义业务逻辑
 const actions = {
-    appendHero(context, heroObj) {
+    appendHero(context, payload) {
+        let heroObj = payload.heroObj
         console.log(heroObj)
         let validated = heroValidate(heroObj)
         if (validated) {
-            context.commit('appendHero', heroObj)
+            context.commit('appendHero', payload)
         } else {
             console.error(`添加hero失败,验证错误`)
         }
     },
-    updateHero(context, heroId, source) {
-        context.commit('updateHero', { heroId, source })
+    updateHero(context, payload) {
+        context.commit('updateHero', payload)
     }
 }
 
 // mutations 定义数据状态的操作
 const mutations = {
-    appendHero(state, heroObj) {
+    appendHero(state, payload) {
         let id = counter()
-        let hero = Object.assign(heroObj, { id: id })
+        let hero = Object.assign(payload.heroObj, { id: id })
         state.heros.push(hero)
     },
-    deleteHero(state, heroId) {
-        state.heros = state.heros.filter((i) => i.id !== heroId)
+    deleteHero(state, payload) {
+        state.heros = state.heros.filter((i) => i.id !== payload.heroId)
     },
-    updateHero(state, heroId, source) {
-        let hero_list = state.heros.filter(hero => hero.id === heroId)
+    updateHero(state, payload) {
+        let hero_list = state.heros.filter(hero => hero.id === payload.heroId)
         if (hero_list.length === 0) {
             return null
         } else {
             let hero = hero_list[0]
-            Object.assign(hero, source)
+            Object.assign(hero, payload.source)
             return hero
         }
     }
