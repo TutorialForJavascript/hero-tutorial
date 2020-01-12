@@ -6,14 +6,14 @@
     <el-row type="flex" justify="center">
       <el-card shadow="hover">
         <template v-slot:header>
-          <div class="clearfix" v-if="hero(1)">
-            <span>{{ hero(1).id }}</span>
+          <div class="clearfix" v-if="hero">
+            <span>{{ hero.id }}</span>
           </div>
         </template>
         <div>
-          <div v-if="hero(1)">
+          <div v-if="hero">
             名字：
-            <el-input v-model="hero_name" :placeholder="hero(1).name"></el-input>
+            <el-input v-model="hero_name" :placeholder="hero.name"></el-input>
           </div>
           <div v-else>
             名字：
@@ -26,7 +26,7 @@
   </div>
 </template>
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   name: "herodetail",
@@ -36,21 +36,22 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("herolist", ["hero"])
+    hero: function(){
+      let heroId = null
+      return this.$store.getters['herolist/getHero'](heroId)
+    }
   },
   methods: {
     ...mapActions("herolist", ["appendHero", "updateHero"]),
     submitHero: function() {
-      let hero = this.hero(1);
-      if (hero) {
+      if (this.hero) {
+        let hero = {...this.hero}
         hero = Object.assign(hero, { name: this.hero_name });
         this.hero_name = "";
         this.updateHero({ heroId: 1, source: hero });
       } else {
-        console.log(this.appendHero);
-        hero = { name: this.hero_name };
+        let hero = { name: this.hero_name };
         this.appendHero({ heroObj: hero });
-        //this.$store.dispatch("herolist/appendHero",{heroObj:hero})
       }
     }
   }

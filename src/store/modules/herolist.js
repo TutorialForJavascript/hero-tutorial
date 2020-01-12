@@ -15,13 +15,28 @@ const state = {
 
 // getters
 const getters = {
-    hero: (state) => (heroId) => {
-        let hero_list = state.heros.filter(hero => hero.id === heroId)
-        if (hero_list.length === 0) {
+    getHero: (state) => (heroId) => {
+        if (typeof(heroId)==="number"){
+            let hero_list = state.heros.filter(hero => hero.id === heroId)
+            if (hero_list.length === 0) {
+                return null
+            } else {
+                let hero = hero_list[0]
+                hero = {...hero}
+                return hero
+            }
+        }else{
             return null
-        } else {
-            return hero_list[0]
         }
+    },
+    first5heros: (state) => {
+        if (state.heros.length > 0) {
+            let heros_copy = [...state.heros]
+            return heros_copy.sort((herof, herol) => herol.weight - herof.weight).slice(0, 5)
+        } else {
+            return []
+        }
+
     }
 }
 
@@ -29,7 +44,6 @@ const getters = {
 const actions = {
     appendHero(context, payload) {
         let heroObj = payload.heroObj
-        console.log(heroObj)
         let validated = heroValidate(heroObj)
         if (validated) {
             context.commit('appendHero', payload)
@@ -46,20 +60,20 @@ const actions = {
 const mutations = {
     appendHero(state, payload) {
         let id = counter()
-        let hero = Object.assign(payload.heroObj, { id: id })
+        let weight = Math.floor((Math.random() * 100) + 1);
+        let hero = Object.assign(payload.heroObj, { id, weight })
         state.heros.push(hero)
     },
     deleteHero(state, payload) {
         state.heros = state.heros.filter((i) => i.id !== payload.heroId)
     },
     updateHero(state, payload) {
-        let hero_list = state.heros.filter(hero => hero.id === payload.heroId)
-        if (hero_list.length === 0) {
-            return null
-        } else {
+        let heros_copy = [...state.heros];
+        let hero_list = heros_copy.filter(hero => hero.id === payload.heroId)
+        if (hero_list.length !== 0) {
             let hero = hero_list[0]
             Object.assign(hero, payload.source)
-            return hero
+            state.heros = heros_copy
         }
     }
 }

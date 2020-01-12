@@ -32,7 +32,6 @@ import { mapState } from "vuex";
 
 export default {
   name: "herolist",
-
   computed: {
     ...mapState("herolist", {
       heros: state => state.heros
