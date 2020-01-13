@@ -9,7 +9,12 @@
         v-for="(hero,index) in first5heros"
         :key="index"
       >
-        <el-card shadow="hover">{{ hero.name }}</el-card>
+        <el-card shadow="hover">
+          <span>{{ hero.name }}</span>
+          <div class="bottom clearfix">
+            <el-button type="text" class="button" @click="handleEdit(hero)">修改</el-button>
+          </div>
+        </el-card>
       </el-col>
     </el-row>
   </div>
@@ -22,6 +27,14 @@ export default {
   name: "dashboard",
   computed: {
     ...mapGetters("herolist", ["first5heros"])
+  },
+  methods: {
+    handleEdit(hero) {
+      this.$router.push({
+        name: "Herodetail",
+        params: { id: hero.id.toString() }
+      });
+    }
   }
 };
 </script>

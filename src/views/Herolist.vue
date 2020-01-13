@@ -28,7 +28,7 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 
 export default {
   name: "herolist",
@@ -39,12 +39,16 @@ export default {
   },
   methods: {
     handleEdit(index, row) {
-      console.log(index, row);
-      this.$router.push({ name: 'Herodetail', params: { id: row.id }})
+      this.$router.push({
+        name: "Herodetail",
+        params: { id: row.id.toString() }
+      });
     },
     handleDelete(index, row) {
       console.log(index, row);
-    }
+      this.deleteHero({ heroId: row.id });
+    },
+    ...mapMutations("herolist", ["deleteHero"])
   }
 };
 </script>

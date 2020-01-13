@@ -24,7 +24,8 @@ const routes = [
   {
     path: '/herodetail/:id',
     name: 'Herodetail',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Herodetail.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/Herodetail.vue'),
+    props:true
   }
 ]
 

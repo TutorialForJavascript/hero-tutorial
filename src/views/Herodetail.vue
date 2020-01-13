@@ -36,13 +36,18 @@ export default {
       hero_name: ""
     };
   },
+  props: {
+    id: {
+      type: String,
+      default: null
+    }
+  },
   computed: {
     hero: function() {
-      let heroId = this.$route.params.id;
-      console.log(heroId)
+      //let heroId = this.$route.params.id;
+      let heroId = Number(this.id);
       //let heroId = null
       let h = this.$store.getters["herolist/getHero"](heroId);
-      console.log(h);
       return h;
     }
   },
