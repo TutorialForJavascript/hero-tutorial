@@ -13,18 +13,18 @@ const routes = [
   {
     path: '/herolist',
     name: 'Herolist',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Herolist.vue')
+    component: () => import(/* webpackChunkName: "Herolist" */ '../views/Herolist.vue')
 
   },
   {
     path: '/herodetail',
     name: 'HeroCreate',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Herodetail.vue')
+    component: () => import(/* webpackChunkName: "herodetail" */ '../views/Herodetail.vue')
   },
   {
     path: '/herodetail/:id',
     name: 'Herodetail',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Herodetail.vue'),
+    component: () => import(/* webpackChunkName: "herodetail" */ '../views/Herodetail.vue'),
     props:true
   }
 ]
