@@ -42,8 +42,9 @@ export default {
       console.log(index, row);
     },
     handleDelete(index, row) {
-      console.log(index, row);
-    }
+      this.deleteHero({ heroId: row.id });
+    },
+    ...mapMutations("herolist", ["deleteHero"])
   }
 };
 </script>
