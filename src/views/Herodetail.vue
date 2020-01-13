@@ -51,6 +51,7 @@ export default {
         this.updateHero({ heroId: 1, source: hero });
       } else {
         let hero = { name: this.hero_name };
+        this.hero_name = "";
         this.appendHero({ heroObj: hero });
       }
     }
