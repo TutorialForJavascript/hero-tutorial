@@ -8,17 +8,22 @@
           </el-row>
           <el-row :gutter="10" type="flex" justify="center">
             <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
-              <el-menu-item index="1">仪表盘</el-menu-item>
-              <el-menu-item index="2">英雄列表</el-menu-item>
+              <el-menu-item index="1">
+                <router-link to="/">仪表盘</router-link>
+              </el-menu-item>
+              <el-menu-item index="2">
+                <router-link to="/herolist">英雄列表</router-link>
+              </el-menu-item>
+              <el-menu-item index="3">
+                <router-link to="/herodetail">创建英雄</router-link>
+              </el-menu-item>
             </el-menu>
           </el-row>
           <el-divider></el-divider>
         </header>
       </el-header>
       <el-main>
-        <Dashboard></Dashboard>
-        <Herolist></Herolist>
-        <Herodetail></Herodetail>
+        <router-view />
       </el-main>
     </el-container>
   </div>

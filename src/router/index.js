@@ -14,9 +14,15 @@ const routes = [
     path: '/herolist',
     name: 'Herolist',
     component: () => import(/* webpackChunkName: "about" */ '../views/Herolist.vue')
+
   },
   {
     path: '/herodetail',
+    name: 'HeroCreate',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Herodetail.vue')
+  },
+  {
+    path: '/herodetail/:id',
     name: 'Herodetail',
     component: () => import(/* webpackChunkName: "about" */ '../views/Herodetail.vue')
   }

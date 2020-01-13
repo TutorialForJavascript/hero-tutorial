@@ -20,6 +20,7 @@
             <el-input v-model="hero_name" placeholder="请输入英雄的名字"></el-input>
           </div>
           <el-button type="primary" round @click="submitHero">提交</el-button>
+          <el-button type="primary" round @click="goBack" v-if="hero!==null">后退</el-button>
         </div>
       </el-card>
     </el-row>
@@ -36,16 +37,20 @@ export default {
     };
   },
   computed: {
-    hero: function(){
-      let heroId = null
-      return this.$store.getters['herolist/getHero'](heroId)
+    hero: function() {
+      let heroId = this.$route.params.id;
+      console.log(heroId)
+      //let heroId = null
+      let h = this.$store.getters["herolist/getHero"](heroId);
+      console.log(h);
+      return h;
     }
   },
   methods: {
     ...mapActions("herolist", ["appendHero", "updateHero"]),
     submitHero: function() {
       if (this.hero) {
-        let hero = {...this.hero}
+        let hero = { ...this.hero };
         hero = Object.assign(hero, { name: this.hero_name });
         this.hero_name = "";
         this.updateHero({ heroId: 1, source: hero });
@@ -54,6 +59,9 @@ export default {
         this.hero_name = "";
         this.appendHero({ heroObj: hero });
       }
+    },
+    goBack() {
+      window.history.length > 1 ? this.$router.go(-1) : this.$router.push("/");
     }
   }
 };

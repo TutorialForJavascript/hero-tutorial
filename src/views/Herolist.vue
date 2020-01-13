@@ -40,6 +40,7 @@ export default {
   methods: {
     handleEdit(index, row) {
       console.log(index, row);
+      this.$router.push({ name: 'Herodetail', params: { id: row.id }})
     },
     handleDelete(index, row) {
       console.log(index, row);
