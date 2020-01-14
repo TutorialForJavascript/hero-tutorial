@@ -3,11 +3,6 @@ import Sequelize from "sequelize"
 const HeroModel = {
     name: "Hero",
     schema: {
-        id: {
-            type: Sequelize.INTEGER,
-            primaryKey: true,
-            autoIncrement: true,
-        },
         name: {
             type: Sequelize.TEXT,
             allowNull: false,

@@ -70,25 +70,20 @@ export class Connection {
     async mokeHero() {
         if (this.get_table("Hero")) {
             return await this.get_table("Hero").bulkCreate([{
-                "id":1,
-                "name":"隐者之紫",
-                "score":20,
+                "name": "隐者之紫",
+                "score": 20,
             }, {
-                "id":2,
-                "name":"红色魔术师",
-                "score":75,
+                "name": "红色魔术师",
+                "score": 75,
             }, {
-                "id":3,
-                "name":"白金之星",
-                "score":95,
+                "name": "白金之星",
+                "score": 95,
             }, {
-                "id":4,
-                "name":"法皇",
-                "score":75,
+                "name": "法皇",
+                "score": 75,
             }, {
-                "id":5,
-                "name":"银色战场",
-                "score":70,
+                "name": "银色战场",
+                "score": 70,
             }])
         } else {
             throw "table Hero not registed"
@@ -100,25 +95,21 @@ export class Connection {
             Model.findAll().then(heros => {
                 if (heros.length == 0) {
                     Model.bulkCreate([{
-                        "id":1,
-                        "name":"隐者之紫",
-                        "score":20,
+
+                        "name": "隐者之紫",
+                        "score": 20,
                     }, {
-                        "id":2,
-                        "name":"红色魔术师",
-                        "score":75,
+                        "name": "红色魔术师",
+                        "score": 75,
                     }, {
-                        "id":3,
-                        "name":"白金之星",
-                        "score":95,
+                        "name": "白金之星",
+                        "score": 95,
                     }, {
-                        "id":4,
-                        "name":"法皇",
-                        "score":75,
+                        "name": "法皇",
+                        "score": 75,
                     }, {
-                        "id":5,
-                        "name":"银色战场",
-                        "score":70,
+                        "name": "银色战场",
+                        "score": 70,
                     }]).then(heros => {
                         console.log('{"msg":"table have moke data"}')
                     })

@@ -35,6 +35,9 @@ export default {
         params: { id: hero.id.toString() }
       });
     }
+  },
+  created: function () {
+   this.$store.dispatch('herolist/syncHeros')
   }
 };
 </script>

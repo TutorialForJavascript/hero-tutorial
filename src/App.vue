@@ -41,7 +41,10 @@ export default {
       activeIndex: "1"
     };
   },
-  components: { Dashboard, Herodetail, Herolist }
+  components: { Dashboard, Herodetail, Herolist },
+  created: function () {
+   this.$store.dispatch('herolist/syncHeros')
+  }
 };
 </script>
 

@@ -28,7 +28,7 @@
   </div>
 </template>
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "herolist",
@@ -48,7 +48,10 @@ export default {
       console.log(index, row);
       this.deleteHero({ heroId: row.id });
     },
-    ...mapMutations("herolist", ["deleteHero"])
+    ...mapActions("herolist", ["deleteHero"])
+  },
+  created: function() {
+    this.$store.dispatch("herolist/syncHeros");
   }
 };
 </script>

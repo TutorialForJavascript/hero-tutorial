@@ -9,7 +9,6 @@ let routes = compose([
     router.get('/', Main.get),
     router.get('/hero', HeroList.get),
     router.post('/hero', HeroList.post),
-    router.post('/hero/rankfive', HeroList.rankfive),
     router.get('/hero/:id', HeroProfile.get),
     router.put('/hero/:id', HeroProfile.put),
     router.delete('/hero/:id', HeroProfile.delete)
