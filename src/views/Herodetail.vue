@@ -23,6 +23,7 @@
           <el-button type="primary" round @click="goBack" v-if="hero!==null">后退</el-button>
         </div>
       </el-card>
+      <ve-radar :data="chartData"></ve-radar>
     </el-row>
   </div>
 </template>

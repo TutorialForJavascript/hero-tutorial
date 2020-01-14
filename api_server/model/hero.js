@@ -12,6 +12,9 @@ const HeroModel = {
             type: Sequelize.INTEGER,
             allowNull: false
         },
+        quality: {
+            type: Sequelize.JSONB
+        },
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE,
     },
