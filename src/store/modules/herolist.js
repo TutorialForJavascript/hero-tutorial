@@ -63,7 +63,7 @@ const actions = {
             } else {
                 heroObj = response.data.data
                 console.log(heroObj)
-                context.commit('appendHero', { heroObj })
+                //context.commit('appendHero', { heroObj })
             }
         } else {
             console.error(`添加hero失败,验证错误`)
@@ -72,7 +72,6 @@ const actions = {
     async updateHero(context, payload) {
         let heroId = payload.heroId
         let source = payload.source
-        context.commit('updateHero', payload)
         let response = await axios.put(
             `http://localhost:5000/hero/${heroId}`,
             JSON.stringify(source),
@@ -84,12 +83,12 @@ const actions = {
         )
         if (response.status !== 200) {
             console.error(`更新到服务器失败`)
+        }else{
+            context.commit('updateHero', payload)
         }
-
     },
     async deleteHero(context, payload) {
         let heroId = payload.heroId
-        context.commit('deleteHero', payload)
         let response = await axios.delete(
             `http://localhost:5000/hero/${heroId}`,
             {
@@ -100,6 +99,8 @@ const actions = {
         )
         if (response.status !== 200) {
             console.error(`从服务器删除失败`)
+        }else{
+            context.commit('deleteHero', payload)
         }
 
     },

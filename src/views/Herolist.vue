@@ -39,9 +39,11 @@ export default {
   },
   methods: {
     handleEdit(index, row) {
+      let id = row.id.toString();
+      console.log(id);
       this.$router.push({
         name: "Herodetail",
-        params: { id: row.id.toString() }
+        params: { id }
       });
     },
     handleDelete(index, row) {
