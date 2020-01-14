@@ -32,7 +32,7 @@ const getters = {
     first5heros: (state) => {
         if (state.heros.length > 0) {
             let heros_copy = [...state.heros]
-            return heros_copy.sort((herof, herol) => herol.weight - herof.weight).slice(0, 5)
+            return heros_copy.sort((herof, herol) => herol.score - herof.score).slice(0, 5)
         } else {
             return []
         }
@@ -60,8 +60,8 @@ const actions = {
 const mutations = {
     appendHero(state, payload) {
         let id = counter()
-        let weight = Math.floor((Math.random() * 100) + 1);
-        let hero = Object.assign(payload.heroObj, { id, weight })
+        let score = Math.floor((Math.random() * 100) + 1);
+        let hero = Object.assign(payload.heroObj, { id, score })
         state.heros.push(hero)
     },
     deleteHero(state, payload) {
