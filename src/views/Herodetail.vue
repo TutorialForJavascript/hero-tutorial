@@ -58,7 +58,7 @@ export default {
         let hero = { ...this.hero };
         hero = Object.assign(hero, { name: this.hero_name });
         this.hero_name = "";
-        this.updateHero({ heroId: this.id, source: hero });
+        this.updateHero({ heroId: Number(this.id), source: hero });
         
       } else {
         let hero = { name: this.hero_name };
