@@ -22,7 +22,7 @@
           名字：
           <el-input v-model="hero.name" placeholder="请输入英雄的名字"></el-input>
           <el-button type="primary" round @click="randomHeroQuality">随机生成</el-button>
-          <el-button type="primary" round @click="submitHero" v-if="has_quality">提交</el-button>
+          <el-button type="primary" round @click="submitHero" v-if="has_quality && hero.name">提交</el-button>
         </el-card>
       </el-col>
       <el-col :span="12" v-if="has_quality">
