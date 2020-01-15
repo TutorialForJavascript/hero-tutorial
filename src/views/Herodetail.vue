@@ -76,7 +76,6 @@ export default {
           { name: this.hero.name, ...this.hero.quality }
         ]
       };
-      console.log(data);
       return data;
     }
   },
@@ -89,8 +88,6 @@ export default {
         this.hero = Object.assign(this.hero, hero);
       } else {
         let hero = { ...this.hero };
-        console.log("************hero")
-        console.log(hero)
         this.appendHero({ heroObj: hero });
         this.hero.name = "";
         this.hero.quality = {};
@@ -123,7 +120,6 @@ export default {
   created: async function() {
     let heroId = Number(this.id);
     if (heroId) {
-      console.log(`url: /hero/${heroId}`);
       this.createdPromise = this.$axios.get(`/hero/${heroId}`);
     }
   },
@@ -132,7 +128,6 @@ export default {
     if (heroId) {
       let response = await this.createdPromise;
       this.hero = response.data.result;
-      console.log(this.hero);
     }
   }
 };

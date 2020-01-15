@@ -40,14 +40,12 @@ export default {
   methods: {
     handleEdit(index, row) {
       let id = row.id.toString();
-      console.log(id);
       this.$router.push({
         name: "Herodetail",
         params: { id }
       });
     },
     handleDelete(index, row) {
-      console.log(index, row);
       this.deleteHero({ heroId: row.id });
     },
     ...mapActions("herolist", ["deleteHero"])
