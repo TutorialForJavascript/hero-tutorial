@@ -38,12 +38,12 @@ const HeroList = {
             ctx.throw(400, JSON.stringify({ "msg": "request can not be empty" }))
         } else {
             try {
+                let name = pre_ins.name
+                delete pre_ins.name
                 let [hero, created] = await connection.get_table("Hero").findOrCreate(
                     {
-                        where: { name: pre_ins.name },
-                        defaults: {
-                            score: pre_ins.score
-                        }
+                        where: { name },
+                        defaults: { ...pre_ins }
                     }
                 )
                 if (created) {
