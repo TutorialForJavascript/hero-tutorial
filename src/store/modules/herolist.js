@@ -1,18 +1,12 @@
 // initial state
-import axios from 'axios'
+//import axios from 'axios'
 import { heroValidate } from "../../validates"
-const Counter = () => {
-    let count = 0
-    return () => {
-        count += 1
-        return count
-    }
-}
-let counter = Counter()
-
+import {random100} from "../../utils"
 const state = {
     heros: []
 }
+
+const axios = window.axios
 
 // getters
 const getters = {
@@ -20,14 +14,14 @@ const getters = {
         if (typeof (heroId) === "number") {
             let hero_list = state.heros.filter(hero => hero.id === heroId)
             if (hero_list.length === 0) {
-                return null
+                return {}
             } else {
                 let hero = hero_list[0]
                 hero = { ...hero }
                 return hero
             }
         } else {
-            return null
+            return {}
         }
     },
     first5heros: (state) => {
@@ -43,13 +37,12 @@ const getters = {
 // actions 定义业务逻辑
 const actions = {
     async appendHero(context, payload) {
-        let score = Math.floor((Math.random() * 100) + 1);
+        let score = random100();
         let heroObj = Object.assign(payload.heroObj, { score })
         let validated = heroValidate(heroObj)
         if (validated) {
-            console.log(heroObj)
             let response = await axios.post(
-                'http://localhost:5000/hero',
+                '/hero',
                 JSON.stringify(heroObj),
                 {
                     headers: {
@@ -62,7 +55,6 @@ const actions = {
                 console.error(response.data)
             } else {
                 heroObj = response.data.data
-                console.log(heroObj)
                 //context.commit('appendHero', { heroObj })
             }
         } else {
@@ -73,7 +65,7 @@ const actions = {
         let heroId = payload.heroId
         let source = payload.source
         let response = await axios.put(
-            `http://localhost:5000/hero/${heroId}`,
+            `/hero/${heroId}`,
             JSON.stringify(source),
             {
                 headers: {
@@ -90,7 +82,7 @@ const actions = {
     async deleteHero(context, payload) {
         let heroId = payload.heroId
         let response = await axios.delete(
-            `http://localhost:5000/hero/${heroId}`,
+            `/hero/${heroId}`,
             {
                 headers: {
                     'Content-Type': 'application/json'
@@ -105,9 +97,8 @@ const actions = {
 
     },
     async syncHeros(context) {
-        let response = await axios.get('http://localhost:5000/hero')
+        let response = await axios.get('/hero')
         let heros = response.data.result
-        console.log(heros)
         let payload = { heros }
         context.commit('syncHeros', payload)
     }
