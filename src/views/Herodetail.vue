@@ -1,6 +1,6 @@
 <template>
-  <div class="about">
-    <el-row type="flex" justify="center">
+  <div class="herodetail">
+    <el-row type="flex" justify="center" v-loading.body="show">
       <h1>英雄详情</h1>
     </el-row>
     <el-row type="flex" justify="center">
@@ -27,7 +27,7 @@
       </el-col>
       <el-col :span="12" v-if="has_quality">
         <h4>英雄属性</h4>
-        <ve-radar :data="chartData"></ve-radar>
+        <ve-radar :data="chartData" :radar="radar"></ve-radar>
       </el-col>
     </el-row>
   </div>
@@ -43,7 +43,35 @@ export default {
       hero: {
         name: "",
         quality: {}
-      }
+      },
+    //   radar: {
+    //     indicator: [
+    //       {
+    //         name: "速度",
+    //         max: 100
+    //       },
+    //       {
+    //         name: "成长性",
+    //         max: 100
+    //       },
+    //       {
+    //         name: "持久力",
+    //         max: 100
+    //       },
+    //       {
+    //         name: "破坏力",
+    //         max: 100
+    //       },
+    //       {
+    //         name: "精密度",
+    //         max: 100
+    //       },
+    //       {
+    //         name: "射程距离",
+    //         max: 100
+    //       }
+    //     ]
+    //   }
     };
   },
   props: {
@@ -53,6 +81,13 @@ export default {
     }
   },
   computed: {
+    show: function() {
+      if (this.id && !this.hero.name) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     has_quality: function() {
       if (Object.keys(this.hero.quality).length !== 0) {
         return true;
@@ -62,17 +97,22 @@ export default {
     },
     chartData: function() {
       let data = {
-        columns: ["name", ...Object.keys(this.hero.quality)],
+        columns: [
+          "name",
+          ...Object.keys(this.hero.quality).map(i => {
+            return { name: i, max: 90 };
+          })
+        ],
         rows: [
-          {
-            name: "max",
-            速度: 100,
-            成长性: 100,
-            持久力: 100,
-            破坏力: 100,
-            精密度: 100,
-            射程距离: 100
-          },
+          // {
+          //   name: "max",
+          //   速度: 100,
+          //   成长性: 100,
+          //   持久力: 100,
+          //   破坏力: 100,
+          //   精密度: 100,
+          //   射程距离: 100
+          // },
           { name: this.hero.name, ...this.hero.quality }
         ]
       };
@@ -123,6 +163,7 @@ export default {
       this.createdPromise = this.$axios.get(`/hero/${heroId}`);
     }
   },
+
   mounted: async function() {
     let heroId = Number(this.id);
     if (heroId) {

@@ -23,7 +23,9 @@
         </header>
       </el-header>
       <el-main>
-        <router-view />
+        <transition name="slide" mode="out-in" appear>
+          <router-view></router-view>
+        </transition>
       </el-main>
     </el-container>
   </div>
@@ -42,8 +44,8 @@ export default {
     };
   },
   components: { Dashboard, Herodetail, Herolist },
-  created: function () {
-   this.$store.dispatch('herolist/syncHeros')
+  created: function() {
+    this.$store.dispatch("herolist/syncHeros");
   }
 };
 </script>
@@ -56,5 +58,11 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.slide-enter-active, .slide-leave-active {
+  transition: opacity .5s;
+}
+.slide-enter, .slide-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>
