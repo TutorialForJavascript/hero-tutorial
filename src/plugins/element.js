@@ -8,8 +8,7 @@ import {
     Table, TableColumn,
     Tag,
     Button,
-    Input,
-    Loading
+    Input
 } from 'element-ui'
 
 
@@ -27,4 +26,3 @@ Vue.use(TableColumn)
 Vue.use(Tag)
 Vue.use(Button)
 Vue.use(Input)
-Vue.use(Loading)

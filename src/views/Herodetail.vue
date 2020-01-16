@@ -1,6 +1,6 @@
 <template>
   <div class="herodetail">
-    <el-row type="flex" justify="center" v-loading.body="show">
+    <el-row type="flex" justify="center">
       <h1>英雄详情</h1>
     </el-row>
     <el-row type="flex" justify="center">
@@ -53,13 +53,6 @@ export default {
     }
   },
   computed: {
-    show: function() {
-      if (this.id && !this.hero.name) {
-        return true;
-      } else {
-        return false;
-      }
-    },
     has_quality: function() {
       if (Object.keys(this.hero.quality).length !== 0) {
         return true;
@@ -123,16 +116,16 @@ export default {
       }
     }
   },
-  created: async function() {
-    let heroId = Number(this.id);
-    if (heroId) {
+  created: function() {
+    if (this.id) {
+      let heroId = Number(this.id);
       this.createdPromise = this.$axios.get(`/hero/${heroId}`);
     }
   },
 
   mounted: async function() {
-    let heroId = Number(this.id);
-    if (heroId) {
+    if (this.id) {
+      let heroId = Number(this.id);
       let response = await this.createdPromise;
       this.hero = response.data.result;
     }

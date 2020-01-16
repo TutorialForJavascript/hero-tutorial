@@ -23,9 +23,7 @@
         </header>
       </el-header>
       <el-main>
-        <transition name="slide" mode="out-in" appear>
-          <router-view></router-view>
-        </transition>
+        <router-view></router-view>
       </el-main>
     </el-container>
   </div>
@@ -58,11 +56,5 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
-}
-.slide-enter-active, .slide-leave-active {
-  transition: opacity .5s;
-}
-.slide-enter, .slide-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
 }
 </style>
