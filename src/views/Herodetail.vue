@@ -1,5 +1,5 @@
 <template>
-  <div class="herodetail">
+  <div class="herodetail" v-loading="show">
     <el-row type="flex" justify="center">
       <h1>英雄详情</h1>
     </el-row>
@@ -53,6 +53,13 @@ export default {
     }
   },
   computed: {
+    show: function() {
+      if (this.id && !this.hero.name) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     has_quality: function() {
       if (Object.keys(this.hero.quality).length !== 0) {
         return true;
@@ -62,13 +69,8 @@ export default {
     },
     chartData: function() {
       let data = {
-        columns: [
-          "name",
-          ...Object.keys(this.hero.quality)
-        ],
-        rows: [
-          { name: this.hero.name, ...this.hero.quality }
-        ]
+        columns: ["name", ...Object.keys(this.hero.quality)],
+        rows: [{ name: this.hero.name, ...this.hero.quality }]
       };
       return data;
     }
@@ -76,8 +78,7 @@ export default {
   methods: {
     ...mapActions("herolist", ["appendHero", "updateHero"]),
     afterconfig: function(option) {
-      console.log(option);
-      option.radar.indicator.forEach(i=>i.max=100)
+      option.radar.indicator.forEach(i => (i.max = 100));
       return option;
     },
     submitHero: function() {
@@ -102,6 +103,14 @@ export default {
         射程距离: random100()
       };
     },
+    setCreatedHero: function(newVal, oldValVal) {
+      if (newVal.name !== "" || Object.keys(newVal.quality).length !== 0) {
+        if (this.id) {
+        } else {
+          sessionStorage.setItem("created_hero", JSON.stringify(newVal));
+        }
+      }
+    },
     goBack: function() {
       window.history.length > 1 ? this.$router.go(-1) : this.$router.push("/");
     }
@@ -114,12 +123,24 @@ export default {
           quality: {}
         };
       }
+    },
+    hero: {
+      handler: "setCreatedHero",
+      deep: true,
+      immediate: true
     }
   },
   created: function() {
     if (this.id) {
       let heroId = Number(this.id);
       this.createdPromise = this.$axios.get(`/hero/${heroId}`);
+    } else {
+      let created_hero = sessionStorage.getItem("created_hero");
+      if (created_hero){
+
+        this.hero = JSON.parse(created_hero);
+      } else {
+      }
     }
   },
 
