@@ -6,7 +6,9 @@ import {
 export const DEFAULT_CONFIG = {
     "PORT": 5000,
     "HOST": "0.0.0.0",
-    "DB_URL": "postgresql://postgres:postgres@localhost:5432/test"
+    "DB_URL": "postgresql://postgres:postgres@localhost:5432/test",
+    "REDIS_URL": "redis://localhost:6379/3",
+    "REDIS_CHANNEL": "test_channel"
 }
 
 export function init_config(options) {
@@ -39,6 +41,12 @@ export function bind_config(options) {
     }
     if (options.dburl) {
         config.set("DB_URL", options.dburl)
+    }
+    if (options.redisurl) {
+        config.set("REDIS_URL", options.redisurl)
+    }
+    if (options.redischannel) {
+        config.set("REDIS_CHANNEL", options.redischannel)
     }
     return config
 }

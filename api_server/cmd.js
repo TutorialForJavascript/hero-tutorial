@@ -6,6 +6,8 @@ export default (argv) => (bind) => {
         .option('-P, --port [number]', 'port')
         .option('-H, --host [string]', 'hostname')
         .option('-D, --dburl [string]', 'dburl')
+        .option('-R, --redisurl [string]', 'redisurl')
+        .option('-C, --redischannel [string]', 'redischannel')
         .option('--config <path>', 'force a config file')
         .parse(argv)
     return bind(args)

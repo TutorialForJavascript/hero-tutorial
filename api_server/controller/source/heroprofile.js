@@ -1,4 +1,5 @@
 import connection from '../../model/index'
+import {pub} from '../../pubsub'
 
 const HeroProfile = {
     async get(ctx, id) {
@@ -36,6 +37,9 @@ const HeroProfile = {
             result = await result.update(
                 pre_ins
             )
+            console.log("#################")
+            console.log(result)
+            //pub.pubjson({event:"update",hero:result})
             ctx.body = JSON.stringify({
                 "result": "done"
             })
@@ -51,6 +55,7 @@ const HeroProfile = {
         try {
             let result = await connection.get_table("Hero").findByPk(id)
             await result.destroy()
+            pub.pubjson({ event: "delete", hero: { id: id } })
             ctx.body = JSON.stringify({
                 "result": "done"
             })
