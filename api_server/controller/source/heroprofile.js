@@ -1,9 +1,9 @@
 import connection from '../../model/index'
-import {pub} from '../../pubsub'
+import { pub } from '../../pubsub'
 
 const HeroProfile = {
-    async get(ctx, id) {
-        id = parseInt(id)
+    async get(ctx) {
+        let id = parseInt(ctx.params.id)
         let res = {
             "self": {
                 "source": ctx.url,
@@ -24,34 +24,40 @@ const HeroProfile = {
             }
         } catch (error) {
             ctx.response.status = 500
+            console.log(error)
             ctx.body = JSON.stringify({
                 "msg": "500 db error"
             })
         }
     },
-    async put(ctx, id) {
-        id = parseInt(id)
+    async put(ctx) {
+        let id = parseInt(ctx.params.id)
         let pre_ins = ctx.request.body
         try {
             let result = await connection.get_table("Hero").findByPk(id)
             result = await result.update(
                 pre_ins
             )
-            console.log("#################")
-            console.log(result)
-            //pub.pubjson({event:"update",hero:result})
+            let heroInfo = result.dataValues
+            let hero = {
+                id: heroInfo.id,
+                name: heroInfo.name,
+                score: heroInfo.score
+            }
+            pub.pubjson({ event: "update", hero:hero})
             ctx.body = JSON.stringify({
                 "result": "done"
             })
         } catch (error) {
             ctx.response.status = 500
+            console.log(error)
             ctx.body = JSON.stringify({
                 "msg": "500 db error"
             })
         }
     },
-    async delete(ctx, id) {
-        id = parseInt(id)
+    async delete(ctx) {
+        let id = parseInt(ctx.params.id)
         try {
             let result = await connection.get_table("Hero").findByPk(id)
             await result.destroy()
@@ -61,6 +67,7 @@ const HeroProfile = {
             })
         } catch (error) {
             ctx.response.status = 500
+            console.log(error)
             ctx.body = JSON.stringify({
                 "msg": "500 db error"
             })

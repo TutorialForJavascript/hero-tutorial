@@ -54,7 +54,7 @@ export default {
   },
   computed: {
     show: function() {
-      if (this.id && !this.hero.name) {
+      if (this.id && !this.hero.name && Object.keys(this.hero.quality).length === 0) {
         return true;
       } else {
         return false;
@@ -89,9 +89,11 @@ export default {
       } else {
         let hero = { ...this.hero };
         this.appendHero({ heroObj: hero });
+        sessionStorage.removeItem("created_hero")
         this.hero.name = "";
         this.hero.quality = {};
       }
+      this.goBack()
     },
     randomHeroQuality: function() {
       this.hero.quality = {
@@ -147,8 +149,13 @@ export default {
   mounted: async function() {
     if (this.id) {
       let heroId = Number(this.id);
-      let response = await this.createdPromise;
-      this.hero = response.data.result;
+      try {
+        let response = await this.createdPromise;
+        this.hero = response.data.result;
+      } catch (error) {
+        alert("英雄数据未找到")
+        this.goBack()
+      }
     }
   }
 };

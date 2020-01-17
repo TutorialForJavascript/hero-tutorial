@@ -36,8 +36,8 @@ export default {
       });
     }
   },
-  created: function () {
-   this.$store.dispatch('herolist/syncHeros')
-  }
+  // created: function () {
+  //  this.$store.dispatch('herolist/syncHeros')
+  // }
 };
 </script>

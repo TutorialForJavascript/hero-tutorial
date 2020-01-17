@@ -1,7 +1,7 @@
 // initial state
 //import axios from 'axios'
 import { heroValidate } from "../../validates"
-import {random100} from "../../utils"
+import { random100 } from "../../utils"
 const state = {
     heros: []
 }
@@ -30,6 +30,32 @@ const getters = {
             return heros_copy.sort((herof, herol) => herol.score - herof.score).slice(0, 5)
         } else {
             return []
+        }
+    }
+}
+
+
+
+// mutations 定义数据状态的操作
+const mutations = {
+    syncHeros(state, payload) {
+        let heros = payload.heros
+        state.heros = heros
+    },
+    appendHero(state, payload) {
+        let hero = payload.heroObj
+        state.heros.push(hero)
+    },
+    deleteHero(state, payload) {
+        state.heros = state.heros.filter((i) => i.id !== payload.heroId)
+    },
+    updateHero(state, payload) {
+        let heros_copy = [...state.heros];
+        let hero_list = heros_copy.filter(hero => hero.id === payload.heroId)
+        if (hero_list.length !== 0) {
+            let hero = hero_list[0]
+            Object.assign(hero, payload.source)
+            state.heros = heros_copy
         }
     }
 }
@@ -75,7 +101,7 @@ const actions = {
         )
         if (response.status !== 200) {
             console.error(`更新到服务器失败`)
-        }else{
+        } else {
             context.commit('updateHero', payload)
         }
     },
@@ -91,42 +117,62 @@ const actions = {
         )
         if (response.status !== 200) {
             console.error(`从服务器删除失败`)
-        }else{
+        } else {
             context.commit('deleteHero', payload)
         }
 
     },
-    async syncHeros(context) {
-        let response = await axios.get('/hero')
-        let heros = response.data.result
-        let payload = { heros }
-        context.commit('syncHeros', payload)
-    }
+    syncHeros(context) {
+        function initEventSource(url = "http://localhost:5000/stream") {
+            let evtSource = new EventSource(url, { withCredentials: true })
+            evtSource.onmessage = function (e) {
+                let { status, result } = JSON.parse(e.data)
+                switch (status) {
+                    case 200: {
+                        context.commit('syncHeros', { heros: result })
+                    } break;
+                    case 201: {
+                        let { event, hero } = result
+                        switch (event) {
+                            case "create": {
+                                context.commit('appendHero', { heroObj: hero })
+                            } break;
+                            case "update": {
+                                context.commit('updateHero', { heroId: hero.id, source: { name: hero.name } })
+                            } break;
+                            case "delete": {
+                                context.commit('deleteHero', { heroId: hero.id })
+                            } break;
+                            default: {
+                                console.log(`unknown event ${event}`)
+                            } break;
+
+                        }
+                    } break;
+                    default: {
+                        console.log(`unknown code ${status}`)
+                    } break;
+                }
+            }
+            evtSource.onerror = function (e) {
+                if (e.readyState == EventSource.CLOSED) {
+                    console.log("Connection lost.")
+                    evtSource.close();
+                    initEventSource()
+                } else{
+                    console.log('error', e);
+                    evtSource.close();
+                }        
+                
+            }
+            evtSource.onopen = function (e) {
+                console.log('open', e);
+            }
+        }
+        initEventSource()
+    },
 }
 
-// mutations 定义数据状态的操作
-const mutations = {
-    syncHeros(state, payload) {
-        let heros = payload.heros
-        state.heros = heros
-    },
-    appendHero(state, payload) {
-        let hero = payload.heroObj
-        state.heros.push(hero)
-    },
-    deleteHero(state, payload) {
-        state.heros = state.heros.filter((i) => i.id !== payload.heroId)
-    },
-    updateHero(state, payload) {
-        let heros_copy = [...state.heros];
-        let hero_list = heros_copy.filter(hero => hero.id === payload.heroId)
-        if (hero_list.length !== 0) {
-            let hero = hero_list[0]
-            Object.assign(hero, payload.source)
-            state.heros = heros_copy
-        }
-    }
-}
 
 export default {
     namespaced: true,

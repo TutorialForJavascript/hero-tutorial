@@ -9,9 +9,6 @@ const pub = {
         this.channel = channel
     },
     pub(msg) {
-        console.log("&&&&&&&&&&&&&&&&&")
-        console.log(msg)
-        console.log(this.channel)
         this.client.publish(this.channel, msg)
     },
     pubjson(msg) {
@@ -30,7 +27,7 @@ const sub = {
         this.client = redis.createClient(redis_url)
         this.channel = channel
     },
-    run: function () {
+    subscribe: function () {
         if (this.onMessage) {
             this.client.on("message", this.onMessage)
         }
@@ -41,6 +38,9 @@ const sub = {
             this.client.on("unsubscribe", this.options.onUnSubscribe)
         }
         this.client.subscribe(this.channel)
+    },
+    unsubscribe: function(){
+        this.client.unsubscribe()
     }
 }
 

@@ -50,8 +50,8 @@ export default {
     },
     ...mapActions("herolist", ["deleteHero"])
   },
-  created: function() {
-    this.$store.dispatch("herolist/syncHeros");
-  }
+  // created: function() {
+  //   this.$store.dispatch("herolist/syncHeros");
+  // }
 };
 </script>

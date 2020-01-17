@@ -1,5 +1,5 @@
 import connection from '../../model/index'
-import {pub} from '../../pubsub'
+import { pub } from '../../pubsub'
 const HeroList = {
     async get(ctx) {
         let find_par = {
@@ -52,7 +52,15 @@ const HeroList = {
                         "msg": "hero created",
                         "data": hero.dataValues
                     })
-                    pub.pubjson({event:"create",hero:hero.dataValues})
+
+                    pub.pubjson({
+                        event: "create",
+                        hero: {
+                            id: hero.dataValues.id,
+                            name: hero.dataValues.name,
+                            score: hero.dataValues.score
+                        }
+                    })
                     ctx.body = JSON.stringify(res)
                 } else {
                     ctx.response.status = 200
