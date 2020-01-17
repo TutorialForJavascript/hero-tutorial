@@ -122,7 +122,7 @@ const actions = {
         }
 
     },
-    syncHeros(context) {
+    syncHerosBySSE(context){
         function initEventSource(url = "http://localhost:5000/stream") {
             let evtSource = new EventSource(url, { withCredentials: true })
             evtSource.onmessage = function (e) {
@@ -170,6 +170,9 @@ const actions = {
             }
         }
         initEventSource()
+    },
+    syncHeros(context) {
+
     },
 }
 
