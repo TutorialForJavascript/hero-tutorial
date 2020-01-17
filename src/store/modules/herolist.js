@@ -131,7 +131,7 @@ const actions = {
                     case 200: {
                         context.commit('syncHeros', { heros: result })
                     } break;
-                    case 201: {
+                    case 100: {
                         let { event, hero } = result
                         switch (event) {
                             case "create": {
@@ -156,7 +156,7 @@ const actions = {
             }
             evtSource.onerror = function (e) {
                 if (e.readyState == EventSource.CLOSED) {
-                    console.log("Connection lost.")
+                    console.log("Connection lost. reconnect...")
                     evtSource.close();
                     initEventSource()
                 } else{
@@ -166,14 +166,18 @@ const actions = {
                 
             }
             evtSource.onopen = function (e) {
-                console.log('open', e);
+                console.log('sse reconnected', e);
             }
         }
         initEventSource()
     },
-    syncHeros(context) {
-
-    },
+    async syncHeros(context) {
+        let response = await axios.get('/hero')
+        let heros = response.data.result
+        console.log(heros)
+        let payload = { heros }
+        context.commit('syncHeros', payload)
+    }
 }
 
 

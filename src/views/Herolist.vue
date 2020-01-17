@@ -50,8 +50,13 @@ export default {
     },
     ...mapActions("herolist", ["deleteHero"])
   },
-  // created: function() {
-  //   this.$store.dispatch("herolist/syncHeros");
-  // }
+  created: function() {
+    if (window.EventSource){
+      console.log("browser support sse, use stream")
+    }else{
+      console.log("browser not support sse, use api")
+      this.$store.dispatch("herolist/syncHeros");
+    }
+  }
 };
 </script>

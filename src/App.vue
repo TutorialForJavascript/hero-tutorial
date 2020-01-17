@@ -48,7 +48,12 @@ export default {
   },
   created: function() {
     this.$store.dispatch("menu/loadCurrrentIndex");
-    this.$store.dispatch("herolist/syncHeros");
+    if (window.EventSource){
+      this.$store.dispatch("herolist/syncHerosBySSE");
+    }else{
+      console.log("browser not support sse, use api")
+      this.$store.dispatch("herolist/syncHeros");
+    }
     this.activeIndex = this.$store.state.menu.current_index;
   }
 };

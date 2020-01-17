@@ -11,7 +11,7 @@ const HeroListStream = {
         }
         sub.onMessage=(channel,message)=>{
             let result = JSON.parse(message)
-            ctx.sse.send(JSON.stringify({ status: 201, result }))
+            ctx.sse.send(JSON.stringify({ status: 100, result }))
         }
         sub.options={
             onSubscribe: function(channel, count){
